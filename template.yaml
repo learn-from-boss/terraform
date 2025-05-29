@@ -18,7 +18,7 @@ Resources:
       KeyName: !Ref KeyName
       ImageId: ami-0c7217cdde317cfec  # Amazon Linux 2 in us-east-1 (change if needed)
       Tags:
-        - Key: Name
+        - Key: locknkey
           Value: DevOpsHomeworkInstance
 
 Outputs:
