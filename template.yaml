@@ -9,6 +9,7 @@ Parameters:
   KeyName:
     Type: AWS::EC2::KeyPair::KeyName
     Description: existing EC2 KeyPair
+    Default: locknkey
 
 Resources:
   MyInstance:
