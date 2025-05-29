@@ -1,0 +1,40 @@
+trigger:
+  branches:
+    include:
+      - main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  awsRegion: 'us-east-1'
+  stackName: 'DevOpsCFNStack'
+  templateFile: 'template.yaml'
+
+stages:
+  - stage: Deploy
+    jobs:
+      - job: DeployToAWS
+        steps:
+          - task: UsePythonVersion@0
+            inputs:
+              versionSpec: '3.x'
+
+          - script: |
+              pip install awscli
+              aws --version
+            displayName: 'Install AWS CLI'
+
+          - script: |
+              aws cloudformation deploy \
+                --template-file $(templateFile) \
+                --stack-name $(stackName) \
+                --region $(awsRegion) \
+                --capabilities CAPABILITY_NAMED_IAM \
+                --parameter-overrides \
+                  InstanceType=t2.micro \
+                  KeyName=locknkey
+            env:
+              AWS_ACCESS_KEY_ID: $(AWS_ACCESS_KEY_ID)
+              AWS_SECRET_ACCESS_KEY: $(AWS_SECRET_ACCESS_KEY)
+            displayName: 'Deploy CF Template'
