@@ -1,0 +1,27 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: CloudFormation template for EC2 
+
+Parameters:
+  InstanceType:
+    Type: String
+    Default: t2.micro
+    Description: EC2 instance type
+  KeyName:
+    Type: AWS::EC2::KeyPair::KeyName
+    Description: existing EC2 KeyPair
+
+Resources:
+  MyInstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: !Ref InstanceType
+      KeyName: !Ref KeyName
+      ImageId: ami-0c7217cdde317cfec  # Amazon Linux 2 in us-east-1 (change if needed)
+      Tags:
+        - Key: Name
+          Value: DevOpsHomeworkInstance
+
+Outputs:
+  InstanceId:
+    Description: Instance ID
+    Value: !Ref MyInstance
